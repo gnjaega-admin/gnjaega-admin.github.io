@@ -430,3 +430,8 @@ tbody th { background: var(--green-50); white-space: nowrap; }
 .content[data-tabs] > section + .tab-footer { margin-top: 48px; }
 .site-footer address a { color: #fff; }
 @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+@media (max-width: 1240px) and (min-width: 961px) { .gnb > ul > li > a { padding: 28px 12px; font-size: .98rem; } .gnb > ul > li > a::after { left: 12px; right: 12px; } }
+@media (min-width: 961px) {
+  .gnb > ul > li:last-child > .sub { left: auto; right: 0; transform: translate(0, 6px); }
+  .gnb > ul > li:last-child:hover > .sub, .gnb > ul > li:last-child:focus-within > .sub { transform: translate(0, 0); }
+}
