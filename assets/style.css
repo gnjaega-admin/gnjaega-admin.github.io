@@ -435,3 +435,25 @@ tbody th { background: var(--green-50); white-space: nowrap; }
   .gnb > ul > li:last-child > .sub { left: auto; right: 0; transform: translate(0, 6px); }
   .gnb > ul > li:last-child:hover > .sub, .gnb > ul > li:last-child:focus-within > .sub { transform: translate(0, 0); }
 }
+
+/* 소식 상세 */
+.post-wrap { max-width: 880px; padding-top: 48px; padding-bottom: 96px; }
+.post-head { border-bottom: 2px solid var(--green-900); padding-bottom: 18px; margin-bottom: 24px; }
+.post-head h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.4; margin: 10px 0 6px; color: var(--green-900); }
+.post-head h2::before { display: none; }
+.post-head time { color: var(--muted); }
+.post-info { background: var(--bg-soft); border-radius: 14px; padding: 18px 22px; margin: 0 0 24px; }
+.post-body p { margin: 0 0 1em; }
+.post-photos { display: grid; gap: 14px; margin: 28px 0; }
+.post-photos img { width: 100%; border-radius: 14px; background: var(--bg-soft); }
+.post-files { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.post-files a { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--text); }
+.post-files a:hover { border-color: var(--green-600); color: var(--green-700); }
+.post-files .icon { width: 22px; height: 22px; color: var(--green-700); }
+a.card-news { text-decoration: none; color: var(--text); transition: transform .15s, box-shadow .15s; }
+a.card-news:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.thumb.has-photo { background: var(--bg-soft); overflow: hidden; }
+.thumb.has-photo::after { display: none; }
+.thumb.has-photo img { width: 100%; height: 100%; object-fit: cover; }
+.news-list a.t { color: var(--text); text-decoration: none; }
+.news-list a.t:hover { color: var(--green-700); text-decoration: underline; }

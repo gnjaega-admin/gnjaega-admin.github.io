@@ -82,11 +82,26 @@
   Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
 })();
 
-// 소식 그리기 (assets/news.js 의 NEWS 데이터 사용)
+// 소식 그리기
+// - 업무관리 "홈페이지 게시" 결재를 거쳐 올라온 글: content/posts/index.json 과 content/posts/{게시ID}.json
+// - 이전 홈페이지에서 옮긴 제목: assets/news.js 의 window.NEWS
 (function () {
-  if (!window.NEWS) return;
+  var lists = document.querySelectorAll('[data-news]');
+  var postBox = document.getElementById('post');
+  if (!lists.length && !postBox) return;
+
+  var KIND = { '공지': 'notice', '예산·결산 공고': 'notice', '활동 소식': 'activity', '언론 보도': 'press' };
+  var ID_RE = /^[A-Za-z0-9_-]{1,80}$/;
+
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
-  function isBudget(t) { return /예산|결산|후원금품/.test(t); }
+  function isBudget(n) { return n.category === '예산·결산 공고' || /예산|결산|후원금품/.test(n.title); }
+  function dot(d) { return String(d || '').replace(/-/g, '.'); }
+  function icon(name) {
+    var ns = 'http://www.w3.org/2000/svg';
+    var s = document.createElementNS(ns, 'svg'); s.setAttribute('class', 'icon'); s.setAttribute('aria-hidden', 'true');
+    var u = document.createElementNS(ns, 'use'); u.setAttribute('href', 'assets/icons.svg#i-' + name); s.appendChild(u);
+    return s;
+  }
   function pickThumb(t) {
     if (/김장|반찬|급식|도시락/.test(t)) return ['t2', 'meal'];
     if (/선물|후원|나눔/.test(t)) return ['t3', 'gift'];
@@ -94,33 +109,116 @@
     if (/교육|모임/.test(t)) return ['t4', 'people'];
     return ['t1', 'hands'];
   }
-  function icon(name) {
-    var ns = 'http://www.w3.org/2000/svg';
-    var s = document.createElementNS(ns, 'svg'); s.setAttribute('class', 'icon'); s.setAttribute('aria-hidden', 'true');
-    var u = document.createElementNS(ns, 'use'); u.setAttribute('href', 'assets/icons.svg#i-' + name); s.appendChild(u);
-    return s;
+  // 게시 파일은 이 사이트의 content/uploads/ 안에 있는 것만 사용
+  function upload(path) { path = String(path || ''); return /^content\/uploads\/[^?#]+$/.test(path) && path.indexOf('..') < 0 ? path : ''; }
+  function safeLink(u) { return /^https?:\/\//i.test(u || '') ? u : ''; }
+  function byDateDesc(a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; }
+  function getJson(url) { return fetch(url, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+
+  function loadLists() {
+    var legacy = window.NEWS || {};
+    var base = { notice: (legacy.notice || []).slice(), activity: (legacy.activity || []).slice(), press: (legacy.press || []).slice() };
+    return getJson('content/posts/index.json').then(function (data) {
+      (data.items || []).forEach(function (n) { var k = KIND[n.category]; if (k && ID_RE.test(n.id || '')) base[k].push(n); });
+      Object.keys(base).forEach(function (k) { base[k].sort(byDateDesc); });
+      return base;
+    }).catch(function () { return base; });
   }
 
-  document.querySelectorAll('[data-news]').forEach(function (ul) {
-    var kind = ul.dataset.news;
-    var items = (window.NEWS[kind] || []).slice(0, Number(ul.dataset.limit) || Infinity);
-    var asCards = ul.dataset.view === 'cards';
-    items.forEach(function (n) {
-      var li = el('li');
-      var time = el('time', null, n.date.replace(/-/g, '.')); time.dateTime = n.date;
-      if (asCards) {
-        var p = pickThumb(n.title);
-        var card = el('div', 'card-news');
-        var th = el('div', 'thumb ' + p[0]); th.appendChild(icon(p[1]));
-        var body = el('div', 'body'); body.appendChild(el('strong', null, n.title)); body.appendChild(time);
-        card.appendChild(th); card.appendChild(body); li.appendChild(card);
-      } else {
-        var t = el('span', 't');
-        if (kind === 'notice') t.appendChild(el('span', 'chip ' + (isBudget(n.title) ? 'budget' : 'notice'), isBudget(n.title) ? '공고' : '공지'));
-        t.appendChild(document.createTextNode(n.title));
-        li.appendChild(t); li.appendChild(time);
-      }
-      ul.appendChild(li);
+  function renderLists(lists) {
+    document.querySelectorAll('[data-news]').forEach(function (ul) {
+      var kind = ul.dataset.news;
+      var items = (lists[kind] || []).slice(0, Number(ul.dataset.limit) || Infinity);
+      var asCards = ul.dataset.view === 'cards';
+      ul.textContent = '';
+      items.forEach(function (n) {
+        var li = el('li');
+        var time = el('time', null, dot(n.date)); time.dateTime = n.date;
+        var href = n.id ? 'post.html?id=' + encodeURIComponent(n.id) : '';
+        if (asCards) {
+          var card = el(href ? 'a' : 'div', 'card-news');
+          if (href) card.href = href;
+          var th, photo = upload(n.photo);
+          if (photo) {
+            th = el('div', 'thumb has-photo');
+            var img = el('img'); img.src = photo; img.alt = ''; img.loading = 'lazy';
+            th.appendChild(img);
+          } else {
+            var p = pickThumb(n.title);
+            th = el('div', 'thumb ' + p[0]); th.appendChild(icon(p[1]));
+          }
+          var body = el('div', 'body'); body.appendChild(el('strong', null, n.title)); body.appendChild(time);
+          card.appendChild(th); card.appendChild(body); li.appendChild(card);
+        } else {
+          var t = el(href ? 'a' : 'span', 't');
+          if (href) t.href = href;
+          if (kind === 'notice') t.appendChild(el('span', 'chip ' + (isBudget(n) ? 'budget' : 'notice'), isBudget(n) ? '공고' : '공지'));
+          t.appendChild(document.createTextNode(n.title));
+          li.appendChild(t); li.appendChild(time);
+        }
+        ul.appendChild(li);
+      });
     });
-  });
+  }
+
+  function notFound() {
+    postBox.textContent = '';
+    postBox.appendChild(el('p', null, '글을 찾을 수 없습니다. 삭제되었거나 아직 게시되지 않은 글입니다.'));
+    var back = el('a', 'btn btn-primary', '소식 목록으로'); back.href = 'news.html'; postBox.appendChild(back);
+  }
+
+  function renderPost(n) {
+    postBox.textContent = '';
+    document.title = n.title + ' | 서울시 강남구 재가노인복지기관';
+    var head = el('header', 'post-head');
+    head.appendChild(el('span', 'chip ' + (isBudget(n) ? 'budget' : 'notice'), n.category));
+    head.appendChild(el('h2', null, n.title));
+    var t = el('time', null, dot(n.date)); t.dateTime = n.date; head.appendChild(t);
+    postBox.appendChild(head);
+
+    if (n.place || n.partner) {
+      var dl = el('dl', 'info-list post-info');
+      [['일시', dot(n.date)], ['장소', n.place], ['함께한 곳', n.partner]].forEach(function (x) {
+        if (x[1]) { dl.appendChild(el('dt', null, x[0])); dl.appendChild(el('dd', null, x[1])); }
+      });
+      postBox.appendChild(dl);
+    }
+
+    var body = el('div', 'post-body');
+    String(n.body || '').split(/\n{2,}/).forEach(function (para) {
+      var p = el('p');
+      para.split('\n').forEach(function (line, i) { if (i) p.appendChild(el('br')); p.appendChild(document.createTextNode(line)); });
+      body.appendChild(p);
+    });
+    postBox.appendChild(body);
+
+    var link = safeLink(n.link);
+    if (link) { var a = el('a', 'btn btn-light', '기사 원문 보기'); a.href = link; a.rel = 'noopener'; postBox.appendChild(a); }
+
+    var photos = (n.photos || []).map(upload).filter(String);
+    if (photos.length) {
+      var g = el('div', 'post-photos');
+      photos.forEach(function (src) { var img = el('img'); img.src = src; img.alt = n.title + ' 사진'; img.loading = 'lazy'; g.appendChild(img); });
+      postBox.appendChild(g);
+    }
+    var files = (n.files || []).filter(function (f) { return upload(f.path); });
+    if (files.length) {
+      postBox.appendChild(el('h3', null, '첨부파일'));
+      var ul = el('ul', 'post-files');
+      files.forEach(function (f) {
+        var li = el('li'); var a2 = el('a'); a2.href = upload(f.path); a2.setAttribute('download', f.name || '');
+        a2.appendChild(icon('doc')); a2.appendChild(document.createTextNode(f.name || '첨부파일')); li.appendChild(a2); ul.appendChild(li);
+      });
+      postBox.appendChild(ul);
+    }
+    var back2 = el('a', 'btn btn-primary', '소식 목록으로'); back2.href = 'news.html'; back2.style.marginTop = '32px';
+    postBox.appendChild(back2);
+  }
+
+  if (lists.length) loadLists().then(renderLists);
+  if (postBox) {
+    var id = new URLSearchParams(location.search).get('id') || '';
+    if (!ID_RE.test(id)) notFound();
+    else getJson('content/posts/' + id + '.json').then(renderPost).catch(notFound);
+  }
 })();
