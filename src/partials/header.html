@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <meta name="theme-color" content="#1f6b4c">
+  <link rel="preload" href="assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <div class="utility">
+    <div class="wrap">
+      <a href="tel:02-573-7943"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg>상담 02-573-7943</a>
+      <div class="font-tools" role="group" aria-label="글자 크기">
+        <span aria-hidden="true">글자 크기</span>
+        <button type="button" data-fs="0" aria-pressed="true">보통</button>
+        <button type="button" data-fs="1" aria-pressed="false">크게</button>
+        <button type="button" data-fs="2" aria-pressed="false">아주 크게</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span><span class="brand-name">서울시 강남구 재가노인복지기관</span><span class="brand-sub">운영법인 사단법인 오픈도어</span></span>
+      </a>
+
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="gnb">
+        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-menu"/></svg><span class="label">전체메뉴</span>
+      </button>
+
+      <nav class="gnb" id="gnb" aria-label="주 메뉴">
+        <ul>
+          <li><a href="about.html" data-nav="about">기관 소개</a>
+            <ul class="sub">
+              <li><a href="about.html#greeting">인사말</a></li>
+              <li><a href="about.html#mission">미션과 비전</a></li>
+              <li><a href="about.html#history">연혁</a></li>
+              <li><a href="about.html#organization">조직도</a></li>
+              <li><a href="about.html#location">오시는 길</a></li>
+            </ul>
+          </li>
+          <li><a href="business.html" data-nav="business">사업 안내</a>
+            <ul class="sub">
+              <li><a href="business.html#meal">식사 지원</a></li>
+              <li><a href="business.html#home">재가 방문 지원</a></li>
+              <li><a href="business.html#sharing">나눔 행사</a></li>
+              <li><a href="business.html#season">계절특화사업</a></li>
+              <li><a href="business.html#network">후원 연계·조사연구</a></li>
+            </ul>
+          </li>
+          <li><a href="support.html" data-nav="support">후원·자원봉사</a>
+            <ul class="sub">
+              <li><a href="support.html#donate">후원 안내</a></li>
+              <li><a href="support.html#volunteer">자원봉사 안내</a></li>
+            </ul>
+          </li>
+          <li><a href="news.html" data-nav="news">소식</a>
+            <ul class="sub">
+              <li><a href="news.html#notice">공지사항</a></li>
+              <li><a href="news.html#activity">활동 소식</a></li>
+              <li><a href="news.html#press">언론 보도</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">

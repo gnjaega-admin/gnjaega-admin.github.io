@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax slice">
+  <!-- 직접 그린 마을 일러스트 (저작권: 기관 소유로 자유롭게 사용 가능) -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff4dc"/>
+      <stop offset="1" stop-color="#e3f1e8"/>
+    </linearGradient>
+    <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe0c9"/><stop offset="1" stop-color="#a6d3b5"/>
+    </linearGradient>
+    <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8cc5a0"/><stop offset="1" stop-color="#6fb187"/>
+    </linearGradient>
+    <linearGradient id="h3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f9a6f"/><stop offset="1" stop-color="#3d8460"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#sky)"/>
+
+  <!-- 해 -->
+  <circle cx="1010" cy="110" r="70" fill="#ffd77a" opacity=".55"/>
+  <circle cx="1010" cy="110" r="48" fill="#ffc94d"/>
+
+  <!-- 구름 -->
+  <g fill="#fff" opacity=".9">
+    <ellipse cx="760" cy="90" rx="58" ry="18"/><ellipse cx="790" cy="78" rx="34" ry="20"/>
+    <ellipse cx="300" cy="130" rx="46" ry="14"/><ellipse cx="322" cy="120" rx="26" ry="15"/>
+  </g>
+
+  <!-- 언덕 -->
+  <path d="M0 330 C180 260 360 300 520 280 S860 220 1200 270 V520 H0z" fill="url(#h1)"/>
+  <path d="M0 390 C220 330 420 370 620 340 S980 310 1200 350 V520 H0z" fill="url(#h2)"/>
+
+  <!-- 멀리 있는 집들 -->
+  <g transform="translate(800 262)">
+    <rect x="0" y="18" width="46" height="34" fill="#fffaf0"/><path d="M-6 20 23 0l29 20z" fill="#e8735a"/><rect x="17" y="34" width="12" height="18" fill="#7a5a3a"/>
+  </g>
+  <g transform="translate(1090 262)">
+    <rect x="0" y="22" width="58" height="40" fill="#fffaf0"/><path d="M-6 24 29 0l35 24z" fill="#f2b531"/><rect x="10" y="34" width="12" height="10" fill="#9fd0e6"/><rect x="36" y="34" width="12" height="10" fill="#9fd0e6"/>
+  </g>
+  <g transform="translate(740 280)">
+    <rect x="0" y="16" width="40" height="30" fill="#fffaf0"/><path d="M-5 18 20 0l25 18z" fill="#2e7d5b"/><rect x="14" y="28" width="12" height="18" fill="#7a5a3a"/>
+  </g>
+
+  <!-- 나무 -->
+  <g>
+    <rect x="1146" y="288" width="8" height="30" fill="#7a5a3a"/><circle cx="1150" cy="278" r="24" fill="#4f9a6f"/>
+    <rect x="738" y="276" width="8" height="30" fill="#7a5a3a"/><circle cx="742" cy="266" r="22" fill="#5aa679"/>
+    <rect x="890" y="300" width="9" height="34" fill="#7a5a3a"/><circle cx="894" cy="286" r="28" fill="#4f9a6f"/><circle cx="910" cy="300" r="18" fill="#5aa679"/>
+  </g>
+
+  <!-- 앞 언덕과 길 -->
+  <path d="M0 440 C240 400 480 430 700 410 S1040 390 1200 420 V520 H0z" fill="url(#h3)"/>
+  <path d="M600 520 C640 470 720 440 860 420 L900 424 C780 448 720 480 700 520z" fill="#f3e3c3" opacity=".9"/>
+
+  <!-- 큰 집 (기관) -->
+  <g transform="translate(560 300)">
+    <rect x="0" y="50" width="170" height="110" rx="4" fill="#fffaf0"/>
+    <path d="M-14 56 85 0l99 56z" fill="#e8735a"/>
+    <rect x="68" y="100" width="34" height="60" rx="3" fill="#2e7d5b"/>
+    <rect x="18" y="78" width="32" height="26" rx="3" fill="#9fd0e6"/><rect x="120" y="78" width="32" height="26" rx="3" fill="#9fd0e6"/>
+    <path d="M85 36s-10-6-10-12a5 5 0 0 1 10-2.5A5 5 0 0 1 95 24c0 6-10 12-10 12z" fill="#fff"/>
+  </g>
+
+  <!-- 사람들: 어르신과 돌봄 선생님 -->
+  <g transform="translate(905 352)">
+    <!-- 돌봄 선생님 -->
+    <circle cx="0" cy="0" r="15" fill="#f5c9a5"/>
+    <path d="M-15 -4a15 15 0 0 1 30 0c0-12-30-12-30 0z" fill="#3b2d26"/>
+    <path d="M-20 20 Q0 10 20 20 L24 78 H-24z" fill="#2e7d5b"/>
+    <rect x="-18" y="78" width="14" height="26" rx="5" fill="#33475b"/><rect x="4" y="78" width="14" height="26" rx="5" fill="#33475b"/>
+    <!-- 도시락 -->
+    <rect x="18" y="44" width="28" height="20" rx="4" fill="#f2b531"/><path d="M24 44v-5h16v5" fill="none" stroke="#9a4a12" stroke-width="2.5"/>
+  </g>
+  <g transform="translate(985 362)">
+    <!-- 어르신 -->
+    <circle cx="0" cy="0" r="14" fill="#f5c9a5"/>
+    <path d="M-14 -3a14 14 0 0 1 28 0c0-11-28-11-28 0z" fill="#d9d9d9"/>
+    <path d="M-18 18 Q0 10 18 18 L20 72 H-20z" fill="#e8735a"/>
+    <rect x="-15" y="72" width="12" height="24" rx="5" fill="#5b4a3a"/><rect x="3" y="72" width="12" height="24" rx="5" fill="#5b4a3a"/>
+    <path d="M30 40v56" stroke="#7a5a3a" stroke-width="4" stroke-linecap="round"/><path d="M20 40h10" stroke="#7a5a3a" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- 마음 -->
+  <path d="M945 318s-9-5.4-9-11a4.5 4.5 0 0 1 9-2.3 4.5 4.5 0 0 1 9 2.3c0 5.6-9 11-9 11z" fill="#e8735a"/>
+
+  <!-- 꽃 -->
+  <g fill="#ffc94d"><circle cx="80" cy="470" r="6"/><circle cx="520" cy="478" r="5"/><circle cx="1120" cy="462" r="6"/></g>
+  <g fill="#fff"><circle cx="110" cy="486" r="4"/><circle cx="560" cy="490" r="4"/><circle cx="1150" cy="480" r="4"/></g>
+</svg>

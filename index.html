@@ -3,29 +3,202 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>홈페이지 준비 중</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f7f5f0;
-      color: #222;
-      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-      text-align: center;
-      padding: 24px;
-      box-sizing: border-box;
-    }
-    h1 { font-size: 2rem; margin: 0 0 16px; }
-    p { font-size: 1.25rem; line-height: 1.7; margin: 0; }
-  </style>
+  <title>서울시 강남구 재가노인복지기관</title>
+  <meta name="description" content="서울시 강남구 재가노인복지기관은 맞춤형 사례관리와 일상지원으로 어르신의 건강하고 안정된 노후를 지역사회 안에서 실현합니다.">
+  <meta name="theme-color" content="#1f6b4c">
+  <link rel="preload" href="assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <main>
-    <h1>홈페이지 준비 중입니다</h1>
-    <p>더 나은 모습으로 곧 찾아뵙겠습니다.</p>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <div class="utility">
+    <div class="wrap">
+      <a href="tel:02-573-7943"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg>상담 02-573-7943</a>
+      <div class="font-tools" role="group" aria-label="글자 크기">
+        <span aria-hidden="true">글자 크기</span>
+        <button type="button" data-fs="0" aria-pressed="true">보통</button>
+        <button type="button" data-fs="1" aria-pressed="false">크게</button>
+        <button type="button" data-fs="2" aria-pressed="false">아주 크게</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span><span class="brand-name">서울시 강남구 재가노인복지기관</span><span class="brand-sub">운영법인 사단법인 오픈도어</span></span>
+      </a>
+
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="gnb">
+        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-menu"/></svg><span class="label">전체메뉴</span>
+      </button>
+
+      <nav class="gnb" id="gnb" aria-label="주 메뉴">
+        <ul>
+          <li><a href="about.html" data-nav="about">기관 소개</a>
+            <ul class="sub">
+              <li><a href="about.html#greeting">인사말</a></li>
+              <li><a href="about.html#mission">미션과 비전</a></li>
+              <li><a href="about.html#history">연혁</a></li>
+              <li><a href="about.html#organization">조직도</a></li>
+              <li><a href="about.html#location">오시는 길</a></li>
+            </ul>
+          </li>
+          <li><a href="business.html" data-nav="business">사업 안내</a>
+            <ul class="sub">
+              <li><a href="business.html#meal">식사 지원</a></li>
+              <li><a href="business.html#home">재가 방문 지원</a></li>
+              <li><a href="business.html#sharing">나눔 행사</a></li>
+              <li><a href="business.html#season">계절특화사업</a></li>
+              <li><a href="business.html#network">후원 연계·조사연구</a></li>
+            </ul>
+          </li>
+          <li><a href="support.html" data-nav="support">후원·자원봉사</a>
+            <ul class="sub">
+              <li><a href="support.html#donate">후원 안내</a></li>
+              <li><a href="support.html#volunteer">자원봉사 안내</a></li>
+            </ul>
+          </li>
+          <li><a href="news.html" data-nav="news">소식</a>
+            <ul class="sub">
+              <li><a href="news.html#notice">공지사항</a></li>
+              <li><a href="news.html#activity">활동 소식</a></li>
+              <li><a href="news.html#press">언론 보도</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="hero-art" src="assets/hero.svg" alt="">
+      <div class="wrap">
+        <span class="hero-badge"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-heart"/></svg>2007년부터 강남의 어르신과 함께</span>
+        <h1 id="hero-title">어르신의 하루가<br><em>더 따뜻하고 든든하도록</em></h1>
+        <p>홀로 계신 어르신과 저소득 어르신 가정을 찾아가 식사, 돌봄, 생활을 살피는 재가노인복지 전문기관입니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="business.html">사업 안내 보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow"/></svg></a>
+          <a class="btn btn-light" href="tel:02-573-7943"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg>02-573-7943</a>
+        </div>
+      </div>
+    </section>
+
+    <nav class="quick wrap" aria-label="자주 찾는 메뉴">
+      <ul>
+        <li><a href="business.html#meal"><span class="qi c2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-meal"/></svg></span>급식지원</a></li>
+        <li><a href="business.html#home"><span class="qi c1"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-visit"/></svg></span>재가 방문 지원</a></li>
+        <li><a href="support.html#donate"><span class="qi c3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-heart"/></svg></span>후원하기</a></li>
+        <li><a href="support.html#volunteer"><span class="qi c4"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-hands"/></svg></span>자원봉사</a></li>
+        <li><a href="news.html#notice"><span class="qi c1"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-doc"/></svg></span>예산·결산 공고</a></li>
+        <li><a href="about.html#location"><span class="qi c2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-map"/></svg></span>오시는 길</a></li>
+      </ul>
+    </nav>
+
+    <section class="section" aria-labelledby="h-news">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="eyebrow">NEWS</span><h2 class="section-title" id="h-news">기관 소식</h2></div>
+          <a class="more" href="news.html">소식 전체 보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow"/></svg></a>
+        </div>
+        <div class="news-grid">
+          <div class="panel">
+            <h3>공지사항 <a class="more" href="news.html#notice"><span class="sr-only">공지사항 </span>더보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-plus"/></svg></a></h3>
+            <ul class="news-list" data-news="notice" data-limit="6"></ul>
+          </div>
+          <div class="panel">
+            <h3>활동 소식 <a class="more" href="news.html#activity"><span class="sr-only">활동 소식 </span>더보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-plus"/></svg></a></h3>
+            <ul class="cards compact" data-news="activity" data-limit="6" data-view="cards"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" aria-labelledby="h-biz">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="eyebrow">OUR WORK</span><h2 class="section-title" id="h-biz">어르신 곁에서 이런 일을 합니다</h2></div>
+          <a class="more" href="business.html">사업 전체 보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow"/></svg></a>
+        </div>
+        <ul class="biz-cards">
+          <li><a class="biz-card" href="business.html#meal"><span class="qi c2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-meal"/></svg></span><strong>식사 지원</strong><p>직접 만든 도시락을 어르신 댁까지 배달하고, 푸드뱅크 물품을 함께 전합니다.</p></a></li>
+          <li><a class="biz-card" href="business.html#home"><span class="qi c1"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-visit"/></svg></span><strong>재가 방문 지원</strong><p>가정을 찾아가 일상생활, 정서, 상담을 지원하고 위기 시 돌봄SOS를 연계합니다.</p></a></li>
+          <li><a class="biz-card" href="business.html#sharing"><span class="qi c3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-gift"/></svg></span><strong>나눔 행사</strong><p>효도잔치와 김장 나눔으로 지역 이웃이 함께 어르신을 섬깁니다.</p></a></li>
+          <li><a class="biz-card" href="business.html#season"><span class="qi c4"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-leaf"/></svg></span><strong>계절특화사업</strong><p>폭염과 한파, 명절까지 계절마다 필요한 도움을 드립니다.</p></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="h-stats">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="eyebrow">IN NUMBERS</span><h2 class="section-title" id="h-stats">숫자로 보는 우리 기관</h2></div>
+        </div>
+        <ul class="stats">
+          <li><b>2007년</b><span>설립 이후 강남 어르신과 동행</span></li>
+          <li><b>130명</b><span>재가노인지원서비스 어르신</span></li>
+          <li><b>90명</b><span>어르신급식지원 어르신</span></li>
+          <li><b>1,500포기</b><span>매년 11월 김장 나눔</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section soft" aria-labelledby="h-cta">
+      <div class="wrap">
+        <div class="cta-band">
+          <div>
+            <h2 id="h-cta">작은 정성이 어르신의 하루를 바꿉니다</h2>
+            <p>정기후원, 물품후원, 자원봉사로 이웃 어르신의 든든한 버팀목이 되어 주세요.</p>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-sun" href="support.html#donate"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-heart"/></svg>후원 안내</a>
+            <a class="btn btn-light" href="support.html#volunteer">자원봉사 참여</a>
+          </div>
+        </div>
+
+        <div class="contact-grid" style="margin-top:28px">
+          <div class="contact-item"><span class="qi c1"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg></span><div><strong>상담 전화</strong><a href="tel:02-573-7943">02-573-7943</a></div></div>
+          <div class="contact-item"><span class="qi c2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-doc"/></svg></span><div><strong>팩스</strong><span>02-576-7943</span></div></div>
+          <div class="contact-item"><span class="qi c3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-map"/></svg></span><div><strong>주소</strong><span>강남구 개포로24길 29</span></div></div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="wrap">
+        <a class="privacy" href="privacy.html">개인정보처리방침</a>
+        <a href="privacy.html#no-email">이메일무단수집거부</a>
+        <a href="https://opendoors.co.kr/" rel="noopener">운영법인 사단법인 오픈도어</a>
+      </div>
+    </div>
+    <div class="footer-body">
+      <div class="wrap">
+        <div>
+          <div class="footer-brand">
+            <span class="footer-logo" aria-hidden="true"><span class="brand-logo"></span></span>
+            서울시 강남구 재가노인복지기관
+          </div>
+          <address>
+            <p>서울특별시 강남구 개포로24길 29 (개포동)</p>
+            <p>전화 02-573-7943 · 팩스 02-576-7943</p>
+          </address>
+          <p>© 사단법인 오픈도어. All rights reserved.</p>
+        </div>
+        <div class="footer-tel">
+          <span>상담 전화</span>
+          <strong><a href="tel:02-573-7943" style="color:inherit;text-decoration:none">02-573-7943</a></strong>
+          <span>평일 09:00 ~ 18:00</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/news.js"></script>
+  <script src="assets/site.js"></script>
 </body>
 </html>
