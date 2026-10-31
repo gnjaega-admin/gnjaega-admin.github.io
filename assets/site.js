@@ -37,10 +37,38 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('is-open')) { set(false); btn.focus(); } });
 })();
 
+// 하위 메뉴(LNB) 탭: data-tabs 가 있는 페이지는 고른 항목의 내용만 보여줌
+(function () {
+  var content = document.querySelector('.content[data-tabs]');
+  if (!content) return;
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lnb a[href^="#"]'));
+  var ids = links.map(function (a) { return a.getAttribute('href').slice(1); });
+  function show(id, scroll) {
+    if (ids.indexOf(id) < 0) id = ids[0];
+    ids.forEach(function (x) { var s = document.getElementById(x); if (s) s.hidden = x !== id; });
+    links.forEach(function (a) {
+      var on = a.getAttribute('href') === '#' + id;
+      a.classList.toggle('is-active', on);
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    if (scroll) document.querySelector('.sub-layout').scrollIntoView();
+  }
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var id = a.getAttribute('href').slice(1);
+      history.replaceState(null, '', '#' + id);
+      show(id, true);
+    });
+  });
+  window.addEventListener('hashchange', function () { show(location.hash.slice(1), true); });
+  show(location.hash.slice(1), !!location.hash);
+})();
+
 // 하위 메뉴(LNB): 지금 보고 있는 구역 표시
 (function () {
   var links = Array.prototype.slice.call(document.querySelectorAll('.lnb a[href^="#"]'));
-  if (!links.length || !('IntersectionObserver' in window)) return;
+  if (!links.length || document.querySelector('.content[data-tabs]') || !('IntersectionObserver' in window)) return;
   var map = {};
   links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
   function activate(id) {
