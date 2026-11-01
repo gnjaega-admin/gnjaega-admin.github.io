@@ -193,7 +193,8 @@ img, svg { max-width: 100%; }
 .cta-band::before { content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border-radius: 50%; background: rgba(255,255,255,.07); }
 .cta-band h2 { margin: 0 0 8px; font-size: clamp(1.4rem, 2.8vw, 1.9rem); line-height: 1.4; }
 .cta-band p { margin: 0; color: #dcefe4; }
-.cta-band .hero-actions { justify-content: flex-end; position: relative; }
+/* 버튼 세 개를 같은 너비로 오른쪽에 세로로 정렬 */
+.cta-band .hero-actions { display: grid; grid-template-columns: 1fr; width: min(100%, 260px); justify-self: end; position: relative; }
 .cta-band :focus-visible { outline-color: #fff; }
 
 /* 연락처 */
@@ -378,11 +379,12 @@ tbody th { background: var(--green-50); white-space: nowrap; }
   .lnb a.is-active::after { display: none; }
   .lnb a.is-active { background: var(--green-700); color: #fff; border-color: var(--green-700); }
   .cta-band { grid-template-columns: 1fr; padding: 36px 28px; }
-  .cta-band .hero-actions { justify-content: flex-start; }
+  .cta-band .hero-actions { grid-template-columns: repeat(3, 1fr); width: 100%; justify-self: stretch; }
   .contact-grid { grid-template-columns: 1fr; }
   .map-card { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
+  .cta-band .hero-actions { grid-template-columns: 1fr; }
   .header-inner { min-height: 72px; }
   .brand-logo { --w: 50px; }
   .brand-name { font-size: 1rem; }
