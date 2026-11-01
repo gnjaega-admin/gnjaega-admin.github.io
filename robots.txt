@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /src/
+Disallow: /tools/
+Disallow: /docs/
+
+Sitemap: https://www.gnjaega.or.kr/sitemap.xml
