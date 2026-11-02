@@ -50,7 +50,7 @@
 <body>
   <a class="skip-link" href="#main">본문 바로가기</a>
 
-  <div class="utility">
+  <div class="utility" role="region" aria-label="상담 전화와 글자 크기">
     <div class="wrap">
       <a href="tel:02-573-7943"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg>상담 02-573-7943</a>
       <div class="font-tools" role="group" aria-label="글자 크기">
@@ -160,11 +160,11 @@
         </div>
         <div class="news-grid">
           <div class="panel">
-            <h3>공지사항 <a class="more" href="news.html#notice"><span class="sr-only">공지사항 </span>더보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-plus"/></svg></a></h3>
+            <div class="panel-head"><h3>공지사항</h3> <a class="more" href="news.html#notice"><span class="sr-only">공지사항 </span>더보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-plus"/></svg></a></div>
             <ul class="news-list" data-news="notice" data-limit="6"></ul>
           </div>
           <div class="panel">
-            <h3>활동 소식 <a class="more" href="news.html#activity"><span class="sr-only">활동 소식 </span>더보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-plus"/></svg></a></h3>
+            <div class="panel-head"><h3>활동 소식</h3> <a class="more" href="news.html#activity"><span class="sr-only">활동 소식 </span>더보기<svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-plus"/></svg></a></div>
             <ul class="cards compact" data-news="activity" data-limit="6" data-view="cards"></ul>
           </div>
         </div>
