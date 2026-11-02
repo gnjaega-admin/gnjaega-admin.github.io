@@ -222,3 +222,70 @@
     else getJson('content/posts/' + id + '.json').then(renderPost).catch(notFound);
   }
 })();
+
+// 첫 화면 알림 팝업: content/popups.json 에서 게시 기간(start~end) 안의 항목만 보여줌
+// - "오늘 하루 보지 않기"는 이 브라우저에만 날짜를 저장(개인정보 아님, 저장 실패해도 동작)
+(function () {
+  var dlg = document.querySelector('dialog[data-popup]');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  var KEY = 'popupHide';
+  var ID_RE = /^[A-Za-z0-9_-]{1,80}$/;
+  function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  try { if (localStorage.getItem(KEY) === today()) return; } catch (e) {}
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+  function upload(path) { path = String(path || ''); return /^content\/uploads\/[^?#]+$/.test(path) && path.indexOf('..') < 0 ? path : ''; }
+  // 링크는 이 사이트 안의 페이지 또는 https 주소만 허용
+  function safeLink(u) { u = String(u || ''); return /^[A-Za-z0-9_-]+\.html([?#][A-Za-z0-9_=&#-]*)?$/.test(u) || /^https:\/\//i.test(u) ? u : ''; }
+
+  fetch('content/popups.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (data) {
+    var now = today();
+    var items = (data.items || []).filter(function (p) {
+      return ID_RE.test(p.id || '') && p.title && (!p.start || p.start <= now) && (!p.end || now <= p.end);
+    }).slice(0, 5);
+    if (!items.length) return;
+
+    var idx = 0;
+    var box = el('div', 'popup-body');
+    var nav = el('div', 'popup-nav');
+    var prev = el('button', 'popup-arrow', '이전'); prev.type = 'button';
+    var count = el('span', 'popup-count'); count.setAttribute('aria-live', 'polite');
+    var next = el('button', 'popup-arrow', '다음'); next.type = 'button';
+    nav.appendChild(prev); nav.appendChild(count); nav.appendChild(next);
+    var foot = el('div', 'popup-foot');
+    var hide = el('button', 'popup-hide', '오늘 하루 보지 않기'); hide.type = 'button';
+    var close = el('button', 'btn btn-primary popup-close', '닫기'); close.type = 'button';
+    foot.appendChild(hide); foot.appendChild(close);
+
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      var p = items[idx];
+      box.textContent = '';
+      var img = upload(p.image);
+      if (img) { var im = el('img', 'popup-img'); im.src = img; im.alt = p.alt || ''; box.appendChild(im); }
+      var h = el('h2', null, p.title); h.id = 'popup-title'; box.appendChild(h);
+      String(p.text || '').split(/\n{2,}/).forEach(function (para) {
+        if (!para.trim()) return;
+        var pe = el('p');
+        para.split('\n').forEach(function (line, k) { if (k) pe.appendChild(el('br')); pe.appendChild(document.createTextNode(line)); });
+        box.appendChild(pe);
+      });
+      var link = safeLink(p.link);
+      if (link) { var a = el('a', 'btn btn-light', p.linkText || '자세히 보기'); a.href = link; if (/^https:/i.test(link)) a.rel = 'noopener'; box.appendChild(a); }
+      count.textContent = (idx + 1) + ' / ' + items.length;
+    }
+
+    dlg.setAttribute('aria-labelledby', 'popup-title');
+    dlg.appendChild(box);
+    if (items.length > 1) dlg.appendChild(nav);
+    dlg.appendChild(foot);
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    close.addEventListener('click', function () { dlg.close(); });
+    hide.addEventListener('click', function () { try { localStorage.setItem(KEY, today()); } catch (e) {} dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    show(0);
+    dlg.showModal();
+    close.focus();
+  }).catch(function () {});
+})();
