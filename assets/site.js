@@ -131,6 +131,7 @@
       var items = (lists[kind] || []).slice(0, Number(ul.dataset.limit) || Infinity);
       var asCards = ul.dataset.view === 'cards';
       ul.textContent = '';
+      if (!items.length) ul.appendChild(el('li', 'news-empty', '아직 올라온 글이 없습니다.'));
       items.forEach(function (n) {
         var li = el('li');
         var time = el('time', null, dot(n.date)); time.dateTime = n.date;

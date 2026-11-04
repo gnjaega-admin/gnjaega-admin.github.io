@@ -545,3 +545,6 @@ html.locked .gate-screen { display: flex; align-items: center; justify-content: 
   .gate-box { padding: 32px 18px; }
   .gate-contact { padding: 16px; gap: 8px 10px; }
 }
+
+/* 소식 목록이 비었을 때 */
+.news-empty { list-style: none; padding: 24px 8px; color: var(--muted, #555); text-align: center; grid-column: 1 / -1; }
