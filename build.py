@@ -15,6 +15,28 @@ ROOT = pathlib.Path(__file__).parent
 SITE = "서울시 강남구 재가노인복지기관"
 BASE = "https://www.gnjaega.or.kr/"
 
+# 공개 전 '준비 중' 모드. 홈페이지를 공개할 때 False 로 바꾸고 다시 만들면 됩니다.
+# True 이면: 일반 방문자에게는 준비 중 화면만 보이고(미리보기 주소로 들어온 브라우저는 실제 화면),
+#           검색 포털에는 노출하지 않도록 요청합니다.
+PREPARING = True
+GATE_HEAD = """  <meta name="robots" content="noindex, nofollow">
+  <script src="assets/gate.js"></script>
+"""
+GATE_SCREEN = """  <section class="gate-screen" aria-labelledby="gate-title">
+    <div class="gate-box">
+      <span class="brand-logo" aria-hidden="true"></span>
+      <p class="gate-org">서울시 강남구 재가노인복지기관</p>
+      <h1 id="gate-title">홈페이지를 준비하고 있습니다</h1>
+      <p>더 나은 모습으로 곧 찾아뵙겠습니다.</p>
+      <dl class="gate-contact">
+        <dt>전화</dt><dd><a href="tel:02-573-7943">02-573-7943</a><span class="gate-hours">평일 09:00~18:00</span></dd>
+        <dt>이메일</dt><dd><a href="mailto:gnjaega@gnjaega.or.kr">gnjaega@gnjaega.or.kr</a></dd>
+      </dl>
+      <p class="gate-old">공지사항과 예산·결산 공고는 <a href="http://www.hanareum.or.kr/" rel="noopener">이전 홈페이지</a>에서 보실 수 있습니다.</p>
+    </div>
+  </section>
+"""
+
 # 검색 포털용 기관 정보(구조화 데이터). 첫 화면에만 넣는다.
 ORG_JSONLD = """  <script type="application/ld+json">
   {
@@ -56,7 +78,9 @@ for page in sorted((ROOT / "src/pages").glob("*.html")):
     head = (header.replace("{{TITLE}}", title)
             .replace("{{DESCRIPTION}}", meta["description"])
             .replace("{{URL}}", url)
-            .replace("{{JSONLD}}", ORG_JSONLD if page.stem == "index" else ""))
+            .replace("{{JSONLD}}", ORG_JSONLD if page.stem == "index" else "")
+            .replace("{{GATE_HEAD}}", GATE_HEAD if PREPARING else "")
+            .replace("{{GATE_SCREEN}}", GATE_SCREEN if PREPARING else ""))
     if meta.get("nav"):
         head = head.replace(f'data-nav="{meta["nav"]}"', f'data-nav="{meta["nav"]}" aria-current="page"')
 

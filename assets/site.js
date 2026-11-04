@@ -285,6 +285,7 @@
     hide.addEventListener('click', function () { try { localStorage.setItem(KEY, today()); } catch (e) {} dlg.close(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
     show(0);
+    if (document.documentElement.classList.contains('locked')) return; // 준비 중 화면일 때는 띄우지 않음
     dlg.showModal();
     close.focus();
   }).catch(function () {});

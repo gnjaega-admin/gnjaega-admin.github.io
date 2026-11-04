@@ -6,7 +6,7 @@
   <!-- 보안 규칙: 이 사이트 파일, 방문 통계(Cloudflare), 지도(OpenStreetMap)만 허용 -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; frame-src https://www.openstreetmap.org; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>{{TITLE}}</title>
+{{GATE_HEAD}}  <title>{{TITLE}}</title>
   <meta name="description" content="{{DESCRIPTION}}">
   <link rel="canonical" href="{{URL}}">
   <!-- 카카오톡·네이버·페이스북 공유 미리보기 -->
@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">본문 바로가기</a>
+{{GATE_SCREEN}}  <a class="skip-link" href="#main">본문 바로가기</a>
 
   <div class="utility" role="region" aria-label="상담 전화와 글자 크기">
     <div class="wrap">
