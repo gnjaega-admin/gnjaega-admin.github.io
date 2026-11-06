@@ -90,7 +90,7 @@
   var postBox = document.getElementById('post');
   if (!lists.length && !postBox) return;
 
-  var KIND = { '공지': 'notice', '예산·결산 공고': 'notice', '활동 소식': 'activity', '언론 보도': 'press' };
+  var KIND = { '공지': 'notice', '예산·결산 공고': 'notice', '활동 소식': 'activity', '언론 보도': 'press', '소식지': 'newsletter' };
   var ID_RE = /^[A-Za-z0-9_-]{1,80}$/;
 
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
@@ -117,7 +117,7 @@
 
   function loadLists() {
     var legacy = window.NEWS || {};
-    var base = { notice: (legacy.notice || []).slice(), activity: (legacy.activity || []).slice(), press: (legacy.press || []).slice() };
+    var base = { notice: (legacy.notice || []).slice(), activity: (legacy.activity || []).slice(), press: (legacy.press || []).slice(), newsletter: (legacy.newsletter || []).slice() };
     return getJson('content/posts/index.json').then(function (data) {
       (data.items || []).forEach(function (n) { var k = KIND[n.category]; if (k && ID_RE.test(n.id || '')) base[k].push(n); });
       Object.keys(base).forEach(function (k) { base[k].sort(byDateDesc); });
@@ -154,7 +154,7 @@
           var t = el(href ? 'a' : 'span', 't');
           if (href) t.href = href;
           if (kind === 'notice') t.appendChild(el('span', 'chip ' + (isBudget(n) ? 'budget' : 'notice'), isBudget(n) ? '공고' : '공지'));
-          t.appendChild(document.createTextNode(n.title));
+          t.appendChild(document.createTextNode((n.press ? '(' + n.press + ') ' : '') + n.title));
           li.appendChild(t); li.appendChild(time);
         }
         ul.appendChild(li);
@@ -177,9 +177,9 @@
     var t = el('time', null, dot(n.date)); t.dateTime = n.date; head.appendChild(t);
     postBox.appendChild(head);
 
-    if (n.place || n.partner) {
+    if (n.place || n.partner || n.press) {
       var dl = el('dl', 'info-list post-info');
-      [['일시', dot(n.date)], ['장소', n.place], ['함께한 곳', n.partner]].forEach(function (x) {
+      [['일시', n.place || n.partner ? dot(n.date) : ''], ['장소', n.place], ['함께한 곳', n.partner], ['언론사', n.press]].forEach(function (x) {
         if (x[1]) { dl.appendChild(el('dt', null, x[0])); dl.appendChild(el('dd', null, x[1])); }
       });
       postBox.appendChild(dl);
