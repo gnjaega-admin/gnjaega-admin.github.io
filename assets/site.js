@@ -125,41 +125,67 @@
     }).catch(function () { return base; });
   }
 
+  // 첫 화면처럼 data-limit 이 있으면 그 개수만, 없으면 한 번에 PAGE 개씩 보여 주고 [더 보기]로 이어서 보여 줌
   function renderLists(lists) {
     document.querySelectorAll('[data-news]').forEach(function (ul) {
       var kind = ul.dataset.news;
-      var items = (lists[kind] || []).slice(0, Number(ul.dataset.limit) || Infinity);
+      var limit = Number(ul.dataset.limit) || 0;
+      var all = (lists[kind] || []).slice(0, limit || Infinity);
       var asCards = ul.dataset.view === 'cards';
+      var page = limit || (asCards ? 12 : 15);
+      var shown = 0;
       ul.textContent = '';
-      if (!items.length) ul.appendChild(el('li', 'news-empty', '아직 올라온 글이 없습니다.'));
-      items.forEach(function (n) {
-        var li = el('li');
-        var time = el('time', null, dot(n.date)); time.dateTime = n.date;
-        var href = n.id ? 'post.html?id=' + encodeURIComponent(n.id) : '';
-        if (asCards) {
-          var card = el(href ? 'a' : 'div', 'card-news');
-          if (href) card.href = href;
-          var th, photo = upload(n.photo);
-          if (photo) {
-            th = el('div', 'thumb has-photo');
-            var img = el('img'); img.src = photo; img.alt = ''; img.loading = 'lazy';
-            th.appendChild(img);
-          } else {
-            var p = pickThumb(n.title);
-            th = el('div', 'thumb ' + p[0]); th.appendChild(icon(p[1]));
-          }
-          var body = el('div', 'body'); body.appendChild(el('strong', null, n.title)); body.appendChild(time);
-          card.appendChild(th); card.appendChild(body); li.appendChild(card);
-        } else {
-          var t = el(href ? 'a' : 'span', 't');
-          if (href) t.href = href;
-          if (kind === 'notice') t.appendChild(el('span', 'chip ' + (isBudget(n) ? 'budget' : 'notice'), isBudget(n) ? '공고' : '공지'));
-          t.appendChild(document.createTextNode((n.press ? '(' + n.press + ') ' : '') + n.title));
-          li.appendChild(t); li.appendChild(time);
-        }
-        ul.appendChild(li);
+      var old = ul.nextElementSibling;
+      if (old && old.classList.contains('list-more')) old.remove();
+      if (!all.length) { ul.appendChild(el('li', 'news-empty', '아직 올라온 글이 없습니다.')); return; }
+      var more = el('button', 'btn btn-light list-more');
+      more.type = 'button';
+      function showMore() {
+        var next = all.slice(shown, shown + page);
+        var first = null;
+        next.forEach(function (n) { var li = itemOf(n, kind, asCards); if (!first) first = li; ul.appendChild(li); });
+        shown += next.length;
+        var left = all.length - shown;
+        if (left > 0) more.textContent = '더 보기 (' + left + '개 남음)';
+        else more.remove();
+        return first;
+      }
+      more.addEventListener('click', function () {
+        var first = showMore();
+        var a = first && first.querySelector('a');
+        if (a) a.focus();
       });
+      showMore();
+      if (shown < all.length) ul.after(more);
     });
+  }
+
+  function itemOf(n, kind, asCards) {
+    var li = el('li');
+    var time = el('time', null, dot(n.date)); time.dateTime = n.date;
+    var href = n.id ? 'post.html?id=' + encodeURIComponent(n.id) : '';
+    if (asCards) {
+      var card = el(href ? 'a' : 'div', 'card-news');
+      if (href) card.href = href;
+      var th, photo = upload(n.photo);
+      if (photo) {
+        th = el('div', 'thumb has-photo');
+        var img = el('img'); img.src = photo; img.alt = ''; img.loading = 'lazy';
+        th.appendChild(img);
+      } else {
+        var p = pickThumb(n.title);
+        th = el('div', 'thumb ' + p[0]); th.appendChild(icon(p[1]));
+      }
+      var body = el('div', 'body'); body.appendChild(el('strong', null, n.title)); body.appendChild(time);
+      card.appendChild(th); card.appendChild(body); li.appendChild(card);
+    } else {
+      var t = el(href ? 'a' : 'span', 't');
+      if (href) t.href = href;
+      if (kind === 'notice') t.appendChild(el('span', 'chip ' + (isBudget(n) ? 'budget' : 'notice'), isBudget(n) ? '공고' : '공지'));
+      t.appendChild(document.createTextNode((n.press ? '(' + n.press + ') ' : '') + n.title));
+      li.appendChild(t); li.appendChild(time);
+    }
+    return li;
   }
 
   function notFound() {
@@ -204,7 +230,8 @@
     postBox.appendChild(body);
 
     var link = safeLink(n.link);
-    if (link) { var a = el('a', 'btn btn-light', '기사 원문 보기'); a.href = link; a.rel = 'noopener'; postBox.appendChild(a); }
+    var linkText = /youtube\.com|youtu\.be/i.test(link) ? '영상 보기' : n.category === '언론 보도' ? '기사 원문 보기' : '관련 링크 보기';
+    if (link) { var a = el('a', 'btn btn-light', linkText); a.href = link; a.rel = 'noopener'; postBox.appendChild(a); }
 
     var rest = photos.filter(function (src, i) { return src && !used[i]; });
     if (rest.length) {

@@ -549,3 +549,6 @@ html.locked .gate-screen { display: flex; align-items: center; justify-content: 
 
 /* 소식 목록이 비었을 때 */
 .news-empty { list-style: none; padding: 24px 8px; color: var(--muted, #555); text-align: center; grid-column: 1 / -1; }
+
+/* 소식 목록 [더 보기] */
+.list-more { display: flex; margin: 20px auto 0; }
