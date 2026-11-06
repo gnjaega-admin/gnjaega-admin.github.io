@@ -185,8 +185,18 @@
       postBox.appendChild(dl);
     }
 
+    // 본문의 [사진N] 한 줄은 그 자리에 N번째 사진을 넣는다. 본문에 넣지 않은 사진은 글 아래에 모은다.
+    var photos = (n.photos || []).map(upload);
+    var used = {};
+    function photoImg(src, cls) { var img = el('img', cls); img.src = src; img.alt = n.title + ' 사진'; img.loading = 'lazy'; return img; }
     var body = el('div', 'post-body');
     String(n.body || '').split(/\n{2,}/).forEach(function (para) {
+      var m = /^\s*\[사진\s*(\d+)\]\s*$/.exec(para);
+      if (m) {
+        var idx = Number(m[1]) - 1;
+        if (photos[idx]) { used[idx] = true; body.appendChild(photoImg(photos[idx], 'post-inline')); }
+        return;
+      }
       var p = el('p');
       para.split('\n').forEach(function (line, i) { if (i) p.appendChild(el('br')); p.appendChild(document.createTextNode(line)); });
       body.appendChild(p);
@@ -196,10 +206,10 @@
     var link = safeLink(n.link);
     if (link) { var a = el('a', 'btn btn-light', '기사 원문 보기'); a.href = link; a.rel = 'noopener'; postBox.appendChild(a); }
 
-    var photos = (n.photos || []).map(upload).filter(String);
-    if (photos.length) {
+    var rest = photos.filter(function (src, i) { return src && !used[i]; });
+    if (rest.length) {
       var g = el('div', 'post-photos');
-      photos.forEach(function (src) { var img = el('img'); img.src = src; img.alt = n.title + ' 사진'; img.loading = 'lazy'; g.appendChild(img); });
+      rest.forEach(function (src) { g.appendChild(photoImg(src)); });
       postBox.appendChild(g);
     }
     var files = (n.files || []).filter(function (f) { return upload(f.path); });
