@@ -66,6 +66,17 @@ def check(path):
             warn.append(f"첨부파일 확인: {f.get('name')}")
     if LIST_TITLE.search(d.get("title") or "") and d.get("photos"):
         warn.append("명단 글에 사진이 있음 — 사진 속에 개인 이름이 있는지 확인")
+    # 업무관리에서 작성자가 공개 사유를 적고 중간·최종결재자가 확인·승인한 글(privacyReviewed)은 막지 않는다.
+    # 결재 때 확인한 항목만 풀어 주고, 결재 뒤 새로 생긴 항목은 그대로 '고쳐야 함'으로 둔다.
+    reviewed = d.get("privacyReviewed") or []
+    if reviewed:
+        still = []
+        for m in must:
+            if any(m.startswith(r) for r in reviewed):
+                warn.append(f"결재자 확인 후 공개: {m}")
+            else:
+                still.append(m)
+        must = still
     return d, must, warn
 
 
