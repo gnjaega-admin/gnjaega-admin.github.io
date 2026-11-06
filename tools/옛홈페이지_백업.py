@@ -167,7 +167,7 @@ def backup_post(post, board_name, out_root):
     with open(os.path.join(pdir, "본문.html"), "w", encoding="utf-8") as f:
         f.write(f"""<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <title>{post['제목']}</title>
-<style>body{{max-width:760px;margin:24px auto;padding:0 16px;font-family:'Malgun Gothic',sans-serif;line-height:1.6}}
+<style>body{{max-width:760px;margin:24px auto;padding:0 16px;font-family:'Pretendard','Nanum Gothic','Noto Sans KR',sans-serif;line-height:1.6}}
 img{{max-width:100%}} .meta{{color:#666;font-size:14px;border-bottom:1px solid #ddd;padding-bottom:8px}}</style>
 </head><body><h1>{post['제목']}</h1>
 <p class="meta">{board_name} · {post['작성일시']} · {post['이름']} · 조회수 {post['조회수']}<br>

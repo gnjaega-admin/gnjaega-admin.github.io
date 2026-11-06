@@ -41,7 +41,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 110px; }
 
 body {
   margin: 0; background: var(--bg); color: var(--text);
-  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+  /* 글꼴은 무료 글꼴만 쓴다(docs/글꼴-원칙.md). 프리텐다드가 내려받아지기 전에는 무료 글꼴 → 기기 기본 글꼴 순 */
+  font-family: "Pretendard", "Nanum Gothic", "NanumGothic", "나눔고딕", "Noto Sans KR", sans-serif;
   line-height: 1.75; word-break: keep-all; overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
 }
