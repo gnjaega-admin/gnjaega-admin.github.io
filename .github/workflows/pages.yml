@@ -54,3 +54,6 @@ jobs:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # 사진이 많아(약 100MB) GitHub 쪽 파일 동기화가 10분을 넘길 수 있어 30분까지 기다린다.
+          timeout: 1800000
