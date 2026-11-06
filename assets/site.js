@@ -112,6 +112,13 @@
   // 게시 파일은 이 사이트의 content/uploads/ 안에 있는 것만 사용
   function upload(path) { path = String(path || ''); return /^content\/uploads\/[^?#]+$/.test(path) && path.indexOf('..') < 0 ? path : ''; }
   function safeLink(u) { return /^https?:\/\//i.test(u || '') ? u : ''; }
+  // 개인정보 안전장치: 글에 휴대전화 번호·주민등록번호가 실수로 들어가도 화면에는 가려서 보여 준다.
+  // (기관 대표번호 02-573-7943 같은 일반 전화번호는 그대로 둔다. 글을 올리기 전 점검은 tools/개인정보_점검.py)
+  function scrub(s) {
+    return String(s || '')
+      .replace(/(^|[^0-9])(\d{6})\s?-\s?[1-4]\d{6}(?![0-9])/g, '$1$2-*******')
+      .replace(/(^|[^0-9])(01[016789])([-.\s)]?)\d{3,4}([-.\s]?)\d{4}(?![0-9])/g, '$1$2$3****$4****');
+  }
   function byDateDesc(a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; }
   function getJson(url) { return fetch(url, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
 
@@ -161,6 +168,7 @@
   }
 
   function itemOf(n, kind, asCards) {
+    n = Object.assign({}, n, { title: scrub(n.title) });
     var li = el('li');
     var time = el('time', null, dot(n.date)); time.dateTime = n.date;
     var href = n.id ? 'post.html?id=' + encodeURIComponent(n.id) : '';
@@ -195,6 +203,7 @@
   }
 
   function renderPost(n) {
+    n = Object.assign({}, n, { title: scrub(n.title), body: scrub(n.body) });
     postBox.textContent = '';
     document.title = n.title + ' | 서울시 강남구 재가노인복지기관';
     var head = el('header', 'post-head');
