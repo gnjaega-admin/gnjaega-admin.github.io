@@ -118,7 +118,7 @@
   function scrub(s, n) {
     var keepMobile = n && Array.isArray(n.privacyReviewed) && n.privacyReviewed.indexOf('휴대전화 번호') >= 0;
     s = String(s || '').replace(/(^|[^0-9])(\d{6})\s?-\s?[1-8]\d{6}(?![0-9])/g, '$1$2-*******');
-    return keepMobile ? s : s.replace(/(^|[^0-9])(01[016789])([-.\s)]?)\d{3,5}([-.\s]?)\d{4}(?![0-9])/g, '$1$2$3****$4****');
+    return keepMobile ? s : s.replace(/(^|[^0-9])(01[016789])([-.\s)]?)\d{3,5}([-.\s]?)\d{4,5}(?![0-9])/g, '$1$2$3****$4****');
   }
   function byDateDesc(a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; }
   function getJson(url) { return fetch(url, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
